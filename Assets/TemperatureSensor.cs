@@ -9,10 +9,12 @@ public class TemperatureSensor : MonoBehaviour
 
     public Gradient tempGrad;
 
+    public GameObject[] stars;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        stars = GameObject.FindGameObjectsWithTag("Star");
     }
 
     // Update is called once per frame
@@ -21,11 +23,10 @@ public class TemperatureSensor : MonoBehaviour
         
         checkTemperature();
     }
+    
 
     void checkTemperature()
     {
-        //find all stars in the system, really clunky
-        GameObject[] stars = GameObject.FindGameObjectsWithTag("Star");
         currentTemperature = 0; //reset it so it can do it every frame
 
         if (stars != null) //if there is any
