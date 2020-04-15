@@ -14,6 +14,8 @@ public class ShipController : MonoBehaviour
 
     public float speed = 1f;
 
+    public bool avoidingDanger = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,39 @@ public class ShipController : MonoBehaviour
     void Update()
     {
         Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 64f * Time.deltaTime * speed);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 64f * Time.deltaTime * speed);
+
+        
+
+
+        Vector3 dir = target.transform.position - transform.position;
+        //float angle = Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg;
+
+        Debug.DrawLine(target.transform.position, transform.position);
+
+        Debug.DrawRay(transform.position, dir, Color.red);
+
+        Vector3 targetDir = target.transform.position - transform.position;
+
+        float whichWay = Vector3.Cross(transform.forward, targetDir).y;
+
+        //float angle = Vector2.SignedAngle(new Vector2(target.transform.position.x, target.transform.position.z), new Vector2(transform.position.x, transform.position.z));
+        Debug.Log(whichWay);
+
+        if(!avoidingDanger)
+        {
+            transform.Rotate(0, Mathf.Sign(whichWay) * speed, 0);
+        }
+        
+            
+        
+
+        
+
+
+
+
+        
 
         int layerMask = 1 << 8;
 
@@ -43,17 +77,20 @@ public class ShipController : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Quaternion.Euler(0, 10f, 0) * Vector3.forward), out hit, 1f, layerMask))
         {
             //Debug.Log("Something on the Right");
-            transform.rotation = transform.rotation * Quaternion.Euler(0, -1f * hit.distance * speed, 0);
+            //transform.rotation = transform.rotation * Quaternion.Euler(0, -1f * hit.distance * speed, 0);
+            transform.Rotate(0, -speed, 0);
         }
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 1f, layerMask))
         {
             //Debug.Log("Something in the Center");
-            transform.rotation = transform.rotation * Quaternion.Euler(0, 1f * hit.distance * speed, 0);
+            //transform.rotation = transform.rotation * Quaternion.Euler(0, 1f * hit.distance * speed, 0);
+            transform.Rotate(0, speed, 0);
         }
         if (Physics.Raycast(transform.position, transform.TransformDirection(Quaternion.Euler(0, -10f, 0) * Vector3.forward), out hit, 1f, layerMask))
         {
             //Debug.Log("Something on the Left");
-            transform.rotation = transform.rotation * Quaternion.Euler(0, 1f * hit.distance * speed , 0);
+            //transform.rotation = transform.rotation * Quaternion.Euler(0, 1f * hit.distance * speed , 0);
+            transform.Rotate(0, speed, 0);
         }
 
 
@@ -89,15 +126,42 @@ public class ShipController : MonoBehaviour
         if(starToAvoid != null)
         {
             
-            if(tempSensor.currentTemperature > 65f)
+            if(tempSensor.currentTemperature > 50f)
             {
+                avoidingDanger = true;
+                /*
                 //avoid star pls
-
+                Debug.Log("Too hot!");
                 float distance = Vector3.Distance(starToAvoid.gameObject.transform.position, transform.position);
 
                 Quaternion sq = Quaternion.LookRotation(starToAvoid.gameObject.transform.position - transform.position);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Inverse(sq), speed * 32f * (4/distance) * Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, sq, (128f * (tempSensor.currentTemperature/50f)) * Time.deltaTime * speed * -1f);
 
+                */
+
+                float maxDistance = starToAvoid.influenceRadius * .5f; //2.5f,fix for different stars
+
+                //so it should attempt to never go closer than 2.5 units
+
+                float distance = Vector3.Distance(transform.position, starToAvoid.transform.position);
+
+                if (distance < maxDistance)
+                {
+                    Debug.Log("Too hot!");
+                    Quaternion sq = Quaternion.LookRotation(starToAvoid.gameObject.transform.position - transform.position);
+                    //transform.rotation = Quaternion.RotateTowards(transform.rotation, sq, -(distance / maxDistance));
+
+                    Vector3 starDir = starToAvoid.transform.position - transform.position;
+
+                    float ww = Vector3.Cross(transform.forward, starDir).y;
+
+                    transform.Rotate(0, -Mathf.Sign(ww), 0);
+
+                }
+
+            } else
+            {
+                avoidingDanger = false;
             }
 
         }
@@ -106,7 +170,9 @@ public class ShipController : MonoBehaviour
 
 
 
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        //transform.Translate(Vector3.forward * Time.deltaTime * speed);
+
+        transform.position = transform.position + transform.forward * Time.deltaTime * speed;
 
 
         if(Vector3.Distance(transform.position,target.transform.position) <= 1f) //arrived
@@ -145,7 +211,7 @@ public class ShipController : MonoBehaviour
     void findNewTarget()
     {
         GameObject bestTarget = null;
-        float value = 0f;
+        float value = -1f;
         foreach (GameObject planetGO in planets)
         {
             

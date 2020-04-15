@@ -505,6 +505,7 @@ MonoBehaviour:
   planets: []
   tempSensor: {fileID: 0}
   speed: 1
+  avoidingDanger: 0
 --- !u!114 &283196443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11017,7 +11018,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55466edbcaf9eda4f8a8e3f07736ae74, type: 3}
   m_Name: 
@@ -16126,6 +16127,7 @@ MonoBehaviour:
   planets: []
   tempSensor: {fileID: 0}
   speed: 2
+  avoidingDanger: 0
 --- !u!114 &1110588653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21565,7 +21567,7 @@ GameObject:
   - component: {fileID: 1658358788}
   - component: {fileID: 1658358787}
   m_Layer: 0
-  m_Name: Planet 2 (1)
+  m_Name: Planet 2 (1)3
   m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21775,6 +21777,7 @@ MonoBehaviour:
   planets: []
   tempSensor: {fileID: 0}
   speed: 1
+  avoidingDanger: 0
 --- !u!1 &1788259538
 GameObject:
   m_ObjectHideFlags: 0
