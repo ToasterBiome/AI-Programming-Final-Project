@@ -16,6 +16,8 @@ public class ShipController : MonoBehaviour
 
     public bool avoidingDanger = false;
 
+    public bool arrivedAtTarget = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +32,7 @@ public class ShipController : MonoBehaviour
         Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position);
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 64f * Time.deltaTime * speed);
 
-        
+
 
 
         Vector3 dir = target.transform.position - transform.position;
@@ -45,22 +47,22 @@ public class ShipController : MonoBehaviour
         float whichWay = Vector3.Cross(transform.forward, targetDir).y;
 
         //float angle = Vector2.SignedAngle(new Vector2(target.transform.position.x, target.transform.position.z), new Vector2(transform.position.x, transform.position.z));
-        Debug.Log(whichWay);
+        //Debug.Log(whichWay);
 
-        if(!avoidingDanger)
+        if (!avoidingDanger)
         {
             transform.Rotate(0, Mathf.Sign(whichWay) * speed, 0);
         }
-        
-            
-        
-
-        
 
 
 
 
-        
+
+
+
+
+
+
 
         int layerMask = 1 << 8;
 
@@ -113,7 +115,7 @@ public class ShipController : MonoBehaviour
 
                 float tempDelta = influence * star.temperature;
 
-                if(tempDelta  > maxInfluenceTemp)
+                if (tempDelta > maxInfluenceTemp)
                 {
                     maxInfluenceTemp = tempDelta;
                     starToAvoid = star;
@@ -123,10 +125,10 @@ public class ShipController : MonoBehaviour
 
             }
         }
-        if(starToAvoid != null)
+        if (starToAvoid != null)
         {
-            
-            if(tempSensor.currentTemperature > 50f)
+
+            if (tempSensor.currentTemperature > 50f)
             {
                 avoidingDanger = true;
                 /*
@@ -147,7 +149,7 @@ public class ShipController : MonoBehaviour
 
                 if (distance < maxDistance)
                 {
-                    Debug.Log("Too hot!");
+                    //Debug.Log("Too hot!");
                     Quaternion sq = Quaternion.LookRotation(starToAvoid.gameObject.transform.position - transform.position);
                     //transform.rotation = Quaternion.RotateTowards(transform.rotation, sq, -(distance / maxDistance));
 
@@ -159,13 +161,14 @@ public class ShipController : MonoBehaviour
 
                 }
 
-            } else
+            }
+            else
             {
                 avoidingDanger = false;
             }
 
         }
-        
+
 
 
 
@@ -174,38 +177,52 @@ public class ShipController : MonoBehaviour
 
         transform.position = transform.position + transform.forward * Time.deltaTime * speed;
 
-
-        if(Vector3.Distance(transform.position,target.transform.position) <= 1f) //arrived
+        if (!arrivedAtTarget)
         {
-            Debug.Log("Arrived");
 
-            if (target.GetComponent<PlanetResource>().reciever) //sell ur shit
+            if (Vector3.Distance(transform.position, target.transform.position) <= 1f) //arrived
             {
-                target.GetComponent<PlanetResource>().count += tank.count;
-                tank.count = 0;
+                //Debug.Log("Arrived");
+                arrivedAtTarget = true;
+                
 
-            }
-            else
-            {
-                if (target.GetComponent<PlanetResource>().count > 8)
+                
+
+                if (target.GetComponent<PlanetResource>().reciever) //sell ur shit
                 {
-                    tank.count += 8;
-                    target.GetComponent<PlanetResource>().count -= 8;
+                    target.GetComponent<PlanetResource>().count += tank.count;
+                    tank.count = 0;
+
                 }
                 else
                 {
-                    tank.count += target.GetComponent<PlanetResource>().count;
-                    target.GetComponent<PlanetResource>().count = 0;
+                    if (target.GetComponent<PlanetResource>().count > 8)
+                    {
+                        tank.count += 8;
+                        target.GetComponent<PlanetResource>().count -= 8;
+                    }
+                    else
+                    {
+                        tank.count += target.GetComponent<PlanetResource>().count;
+                        target.GetComponent<PlanetResource>().count = 0;
+                    }
                 }
+
+                target.GetComponent<PlanetResource>().EnterPlanet(gameObject);
+
+
+
+
+
             }
-
-
-
-            
-            findNewTarget();
         }
 
+    }
 
+    public void Launch()
+    {
+        arrivedAtTarget = false;
+        findNewTarget();
     }
 
     void findNewTarget()
@@ -214,32 +231,33 @@ public class ShipController : MonoBehaviour
         float value = -1f;
         foreach (GameObject planetGO in planets)
         {
-            
+
             //find the best planet to go to
             if (tank.count == 0) //empty, need to fill up
             {
                 if (planetGO.GetComponent<PlanetResource>().reciever == false)  //can give resources
                 {
                     float tempValue = planetGO.GetComponent<PlanetResource>().count / Vector3.Distance(transform.position, planetGO.transform.position);
-                    Debug.Log("Value for " + planetGO.name + ": " + tempValue);
+                    //Debug.Log("Value for " + planetGO.name + ": " + tempValue);
                     if (tempValue > value)
                     {
                         value = tempValue;
                         bestTarget = planetGO;
                     }
                 }
-            } else
+            }
+            else
             {
                 if (planetGO.GetComponent<PlanetResource>().reciever == true)  //can take resources
                 {
-                    float tempValue = (1/planetGO.GetComponent<PlanetResource>().count) / Vector3.Distance(transform.position, planetGO.transform.position);
-                    Debug.Log("Value for " + planetGO.name + ": " + tempValue);
+                    float tempValue = (1 / planetGO.GetComponent<PlanetResource>().count) / Vector3.Distance(transform.position, planetGO.transform.position);
+                    //Debug.Log("Value for " + planetGO.name + ": " + tempValue);
                     if (tempValue > value)
                     {
                         value = tempValue;
                         bestTarget = planetGO;
                     }
-                    
+
                 }
             }
         }
