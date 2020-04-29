@@ -21,6 +21,14 @@ public class PlanetResource : MonoBehaviour
 
     public bool launching = true;
 
+    public enum ResourceType
+    {
+        Scrap,
+        Steel
+    }
+
+    public ResourceType resourceType;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -123,7 +131,7 @@ public class PlanetResource : MonoBehaviour
     }
 
     void OnMouseExit()
-    {
+    { 
         //The mouse is no longer hovering over the GameObject so output this message each frame
         resourceText.gameObject.SetActive(false);
         planetText.gameObject.SetActive(false);

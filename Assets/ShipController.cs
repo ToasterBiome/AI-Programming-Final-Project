@@ -237,25 +237,33 @@ public class ShipController : MonoBehaviour
             {
                 if (planetGO.GetComponent<PlanetResource>().reciever == false)  //can give resources
                 {
-                    float tempValue = planetGO.GetComponent<PlanetResource>().count / Vector3.Distance(transform.position, planetGO.transform.position);
-                    //Debug.Log("Value for " + planetGO.name + ": " + tempValue);
-                    if (tempValue > value)
+                    if(planetGO.GetComponent<PlanetResource>().resourceType == tank.resourceType)
                     {
-                        value = tempValue;
-                        bestTarget = planetGO;
+                        float tempValue = planetGO.GetComponent<PlanetResource>().count / Vector3.Distance(transform.position, planetGO.transform.position);
+                        //Debug.Log("Value for " + planetGO.name + ": " + tempValue);
+                        if (tempValue > value)
+                        {
+                            value = tempValue;
+                            bestTarget = planetGO;
+                        }
                     }
+                    
                 }
             }
             else
             {
                 if (planetGO.GetComponent<PlanetResource>().reciever == true)  //can take resources
                 {
-                    float tempValue = (1 / planetGO.GetComponent<PlanetResource>().count) / Vector3.Distance(transform.position, planetGO.transform.position);
-                    //Debug.Log("Value for " + planetGO.name + ": " + tempValue);
-                    if (tempValue > value)
+                    if (planetGO.GetComponent<PlanetResource>().resourceType == tank.resourceType)
                     {
-                        value = tempValue;
-                        bestTarget = planetGO;
+                        float tempValue = (1 / planetGO.GetComponent<PlanetResource>().count) / Vector3.Distance(transform.position, planetGO.transform.position);
+                        //Debug.Log("Value for " + planetGO.name + ": " + tempValue);
+                        if (tempValue > value)
+                        {
+                            value = tempValue;
+                            bestTarget = planetGO;
+                        }
+
                     }
 
                 }
