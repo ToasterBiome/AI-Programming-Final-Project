@@ -131,6 +131,9 @@ GameObject:
   - component: {fileID: 18482197}
   - component: {fileID: 18482198}
   - component: {fileID: 18482199}
+  - component: {fileID: 18482201}
+  - component: {fileID: 18482202}
+  - component: {fileID: 18482200}
   m_Layer: 0
   m_Name: Asteroid Belt
   m_TagString: Planet
@@ -146,7 +149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18482196}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: -1}
+  m_LocalPosition: {x: 5, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1295746382}
@@ -162,7 +165,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18482196}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8eea6f2547a915345a16274a9cc5b602, type: 3}
   m_Name: 
@@ -189,6 +192,57 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &18482200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18482196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb0bb2eda85417b48ac7ad867be0b044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  resource: {fileID: 11400000, guid: b14f8918fbb5be64eb0aed9bc7effac3, type: 2}
+  resourceTimer: 0
+  resourceSpeed: 1
+  exporter: {fileID: 0}
+--- !u!114 &18482201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18482196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45db8ae4853c26d45a006cdf1947ceb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceText: {fileID: 589144270}
+  planetText: {fileID: 1880083603}
+  ships: []
+  launching: 1
+  imports: []
+  exports: []
+  factories: []
+  producers: []
+--- !u!114 &18482202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18482196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5137be255d11f674d930999cf93d861c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: {fileID: 11400000, guid: b14f8918fbb5be64eb0aed9bc7effac3, type: 2}
+  amount: 0
 --- !u!1 &29360320
 GameObject:
   m_ObjectHideFlags: 0
@@ -9918,6 +9972,77 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &320937681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6152287705924968313, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1275265321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &320937683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320937681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb140eb00a283ca45ba45f4909c22d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: b14f8918fbb5be64eb0aed9bc7effac3, type: 2}
+  inputCount: 2
+  output: {fileID: 11400000, guid: fb728f2e80d305b4d9e8cb452ae7e922, type: 2}
+  outputCount: 1
+  timeToCraft: 1
+--- !u!114 &320937684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320937681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5137be255d11f674d930999cf93d861c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: {fileID: 11400000, guid: fb728f2e80d305b4d9e8cb452ae7e922, type: 2}
+  amount: 0
+--- !u!114 &320937685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320937681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62114c172eee434996a9e7edd842ba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: {fileID: 11400000, guid: b14f8918fbb5be64eb0aed9bc7effac3, type: 2}
+  amount: 0
+--- !u!114 &320937686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320937681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45db8ae4853c26d45a006cdf1947ceb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceText: {fileID: 440758616}
+  planetText: {fileID: 1988003327}
+  ships: []
+  launching: 1
+  imports: []
+  exports: []
+  factories: []
+  producers: []
 --- !u!1 &388833276
 GameObject:
   m_ObjectHideFlags: 0
@@ -10138,6 +10263,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   influenceRadius: 5
   temperature: 100
+--- !u!114 &440758616 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6152287706223044598, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1275265321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &589144268
 GameObject:
   m_ObjectHideFlags: 0
@@ -10204,8 +10341,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294948352
-  m_fontColor: {r: 0, g: 0.7156651, b: 1, a: 1}
+    rgba: 4278252287
+  m_fontColor: {r: 1, g: 0.95184326, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -25846,12 +25983,12 @@ PrefabInstance:
     - target: {fileID: 6152287705924968313, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
         type: 3}
       propertyPath: m_Name
-      value: Smelter Planet
+      value: Smelting Planet
       objectReference: {fileID: 0}
     - target: {fileID: 6152287705924968315, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.98
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 6152287705924968315, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
         type: 3}
@@ -25861,7 +25998,7 @@ PrefabInstance:
     - target: {fileID: 6152287705924968315, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.00999999
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6152287705924968315, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
         type: 3}
@@ -25913,10 +26050,42 @@ PrefabInstance:
       propertyPath: reciever
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6152287705924968312, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+        type: 3}
+      propertyPath: resourceSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152287705924968312, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+        type: 3}
+      propertyPath: count
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152287705924968312, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6152287707811540214, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
         type: 3}
       propertyPath: m_text
-      value: Planet Smelter
+      value: 'Smelting Planet
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152287706223044598, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152287706223044598, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.9529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152287706223044598, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56ef8fe00f33f094ebb6500e2ea14c8f, type: 3}
@@ -31978,12 +32147,12 @@ GameObject:
   - component: {fileID: 1813868302}
   - component: {fileID: 1813868301}
   m_Layer: 0
-  m_Name: Ship (4)
+  m_Name: Smelter Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1813868301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37126,6 +37295,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961039657}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1988003327 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6152287707811540214, guid: 56ef8fe00f33f094ebb6500e2ea14c8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1275265321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2100443785
 GameObject:
   m_ObjectHideFlags: 0
