@@ -23,7 +23,7 @@ public class PlanetManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        foreach(ResourceImport imp in GetComponents<ResourceImport>())
+        foreach (ResourceImport imp in GetComponents<ResourceImport>())
         {
             imports.Add(imp);
         }
@@ -42,15 +42,25 @@ public class PlanetManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        StartCoroutine("LaunchLoop");
+    }
+
     // Update is called once per frame
     void Update()
     {
         resourceText.text = "";
+        for (int i = 0; i < imports.Count; i++)
+        {
+            resourceText.text += "I: " + imports[i].resource.name + ": " + imports[i].amount;
+            resourceText.text += "\n";
+        }
         for (int i = 0; i < exports.Count; i++)
         {
-            resourceText.text += exports[i].resource.name + ": " + exports[i].amount;
+            resourceText.text += "E: " + exports[i].resource.name + ": " + exports[i].amount;
         }
-        
+
     }
 
     public IEnumerator Enter(GameObject ship)
@@ -58,15 +68,15 @@ public class PlanetManager : MonoBehaviour
         bool arrived = false;
         while (!arrived)
         {
-            ship.transform.localScale = ship.transform.localScale * 0.97f;
+            ship.transform.localScale = ship.transform.localScale * (float)(1 - 0.03 * ship.GetComponent<Ship>().speed);
             Debug.Log("scale: " + ship.transform.localScale.magnitude);
-            if (ship.transform.localScale.magnitude < 0.05f)
+            if (ship.transform.localScale.magnitude < 0.2f)
             {
                 arrived = true;
                 ships.Add(ship);
                 ship.gameObject.SetActive(false);
-                ship.GetComponent<ShipController>().arrivedAtTarget = false;
-                ship.GetComponent<ShipController>().target = null;
+                //ship.GetComponent<Ship>().arrivedAtTarget = false;
+                //ship.GetComponent<Ship>().target = null;
             }
             yield return new WaitForEndOfFrame();
         }
@@ -89,11 +99,40 @@ public class PlanetManager : MonoBehaviour
             Debug.Log("Trying to launch");
             if (ships.Count > 0)
             {
-                //launch the oldest ship
-                Debug.Log("Lauching " + ships[0].name);
-                ships[0].GetComponent<ShipController>().Launch();
-                ships[0].gameObject.SetActive(true);
-                StartCoroutine(Exit(ships[0]));
+                foreach (GameObject ship in ships)
+                {
+
+
+                    bool loadSuccessful = ship.GetComponent<Ship>().Load();
+                    if (loadSuccessful)
+                    {
+
+                        //share a random planet they know with everyone
+                        foreach (GameObject otherShip in ships)
+                        {
+                            if (ship != otherShip) //not yourself
+                            {
+                                //give it a random planet to know of
+                                GameObject randomPlanet = ship.GetComponent<Ship>().knownPlanets[Random.Range(0, ship.GetComponent<Ship>().knownPlanets.Count - 1)];
+
+                                if (!otherShip.GetComponent<Ship>().knownPlanets.Contains(randomPlanet))
+                                { //if it doesn't know it
+                                    otherShip.GetComponent<Ship>().knownPlanets.Add(randomPlanet); //add it
+                                }
+                            }
+
+                        }
+
+                        ship.GetComponent<Ship>().Launch();
+                        ship.gameObject.SetActive(true);
+                        StartCoroutine(Exit(ship));
+                    }
+                    else
+                    {
+                        //weren't enough resources, wait
+                    }
+                }
+
             }
 
         }
@@ -118,7 +157,6 @@ public class PlanetManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         yield return null;
-
     }
 
     void OnMouseOver()
@@ -136,14 +174,27 @@ public class PlanetManager : MonoBehaviour
 
     public ResourceExport getExporter(Resource resource)
     {
-        for(int i = 0; i < exports.Count; i++)
+        for (int i = 0; i < exports.Count; i++)
         {
-            if(exports[i].resource.name == resource.name)
+            if (exports[i].resource.name == resource.name)
             {
                 return exports[i];
             }
         }
-        Debug.LogError("There is no exporter for resource " + resource.name);
+        //Debug.LogError("There is no exporter for resource " + resource.name);
+        return null;
+    }
+
+    public ResourceImport getImporter(Resource resource)
+    {
+        for (int i = 0; i < imports.Count; i++)
+        {
+            if (imports[i].resource.name == resource.name)
+            {
+                return imports[i];
+            }
+        }
+        //Debug.LogError("There is no importer for resource " + resource.name);
         return null;
     }
 }
